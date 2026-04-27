@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+tmp_script="$(mktemp)"
+cleanup() { rm -f "$tmp_script"; }
+trap cleanup EXIT
+
+curl -fsSL "https://gist.githubusercontent.com/sproott/d1cc0387e635aa07816821b35cf83d94/raw/pre-bootstrap.sh" -o "$tmp_script"
+nix-shell -p gh git gum --run "bash \"$tmp_script\""
